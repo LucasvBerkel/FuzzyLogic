@@ -1,7 +1,7 @@
 import os
 import csv
 
-files = os.listdir("training_set")
+files = os.listdir("training_set_with_old_reviews")
 fileName = "movie_Titles_with_Genres.csv"
 
 counterM = 0

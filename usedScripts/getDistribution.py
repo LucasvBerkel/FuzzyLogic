@@ -8,6 +8,7 @@ from shutil import copyfile
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-c", help="Copy files, yes or no", type=str)
+parser.add_argument("-t", help="Threshold for amount of reviews per movie", type=int)
 args = parser.parse_args()
 
 def getpercent(currentline, totallines):
@@ -21,15 +22,15 @@ def writestatus(currentline, totallines):
     stdout.flush()
 
 if __name__ == "__main__":
-	path = "newTraining_Set/"
-	newPath = "finalTraining_Set/"
+	path = "training_set_without_old_reviews/"
+	newPath = "training_set_without_old_reviews_impopular_movies/"
 	files = os.listdir(path)
 
 	totalLength = len(files)
 	counter = 0
 	vector = []
 	
-	threshold = 2000
+	threshold = args.t
 
 	counterUnder = 0
 	counterOver = 0
