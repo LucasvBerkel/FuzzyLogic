@@ -19,7 +19,9 @@ if __name__ == "__main__":
                 movieTitle = row.replace("\n", "").split(",")[2]
                 print counter
                 print movieTitle
-                request = Request('http://www.omdbapi.com/?t=' +  quote(movieTitle) + '&y=&plot=short&r=json')
+                request = Request('http://www.omdbapi.com/?t=' +
+                                  quote(movieTitle) +
+                                  '&y=&plot=short&r=json')
                 newData = row.replace("\n", "").split(",")
                 try:
                     response = urlopen(request)
@@ -38,11 +40,3 @@ if __name__ == "__main__":
     with open('newMovie_Titles2.csv', 'w') as fp:
         a = csv.writer(fp, delimiter=',')
         a.writerows(newFile)
-
-
-
-    # with open('newSmoelenboek.csv', 'w') as fp:
-    #     a = csv.writer(fp, delimiter=',')
-    #     a.writerows(newFile)
-
-    # os.system("ren " + path + "\\" + file_name + " " + new_file_name)
