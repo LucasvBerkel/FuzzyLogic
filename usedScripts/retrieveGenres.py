@@ -1,52 +1,39 @@
-import os
-import argparse
 import csv
-import re
-import json
+from pprint import pprint
+import pickle
+
+def save_obj(obj, name):
+    with open(name + '.pkl', 'wb') as f:
+        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+
+def load_obj(name ):
+    with open('obj/' + name + '.pkl', 'rb') as f:
+        return pickle.load(f)
 
 if __name__ == "__main__":
-    fileName = "movie_Titles_with_Genres.csv"
-    newFileName = "movie_Titles_with_Genres_Fixed.csv"
-    files = os.listdir("../newDataset/training_set")
-    counter = 1
-    genreList = []
+    fileName = "movie_Titles_with_Genres_Final.csv"
+    genreDict = {}
+    counter = 0
     with open(fileName, 'r') as f:
         a = csv.reader(f, delimiter=",")
-        with open(newFileName, 'w') as fw:
-            b = csv.writer(fw, delimiter=",")
-            for row in a:
-                name = "mv_" + row[0].zfill(7) + ".txt"
-                if(name in files):
-                    if len(row)>4:
-                        row = [row[0], row[1], ",".join(row[2:-1]),row[-1]]
-                    b.writerow(row)
-        fw.close()
+        for row in a:
+            genres = row[3].split(",")
+            for genre in genres:
+                genre = genre.replace(" ", "")
+                if genre not in genreDict:
+                    genreDict[genre] = 1
+                else:
+                    genreDict[genre] += 1
     f.close()
-            # with open('newMovie_Titles.csv', 'w') as fp:
-        #     a = csv.writer(fp, delimiter=',')
 
-        #     for row in f:
-        #         movieTitle = row.replace("\n", "").split(",")[2]
-        #         print counter
-        #         print movieTitle
-        #         request = Request('http://www.omdbapi.com/?t=' +
-        #                           quote(movieTitle) +
-        #                           '&y=&plot=short&r=json')
-        #         newData = row.replace("\n", "").split(",")
-        #         try:
-        #             response = urlopen(request)
-        #             kittens = response.read()
-        #             d = json.loads(kittens)
-        #             if d['Response'] == "True":
-        #                 print d['Genre']
-        #                 genres = d['Genre'].encode('UTF8')
-        #                 newData.append(genres)
-        #                 newFile.append(newData)
-        #                 a.writerow(newData)
-        #         except URLError, e:
-        #             print 'No kittez. Got an error code:', e
-        #         counter += 1
+    pprint(genreDict)
 
-    # with open('newMovie_Titles2.csv', 'w') as fp:
-    #     a = csv.writer(fp, delimiter=',')
-    #     a.writerows(newFile)    
+    genreIndexDict = {}
+    counter = 0
+    for key in genreDict:
+        genreIndexDict[key] = counter
+        counter += 1
+
+    pprint(genreIndexDict)
+
+    save_obj(genreIndexDict, "genreIndex")
