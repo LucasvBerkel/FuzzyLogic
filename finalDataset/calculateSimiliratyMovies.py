@@ -31,6 +31,8 @@ def confidenceMovie(seenMovie, array1):
 
 
 if __name__ == "__main__":
+    N = 20
+    
     movieDict = load_obj("movieDict")
 
     path = "training_set_tiny_part/"
@@ -54,9 +56,8 @@ if __name__ == "__main__":
             confidence = confidenceMovie(seenMovies, movieDict[key])
             confidenceMovies.append([key, confidence])
 
-    confidenceMovies.sort(key=lambda x: x[1], reverse=True)
+    confidenceMovies.sort(key=lambda x: x[0], reverse=True)
 
     movieDictNames = load_obj("movieDictNames")
-    for x in range(0, 20):
-        print movieDictNames[confidenceMovies[x][0]]
-        print confidenceMovies[x]
+    for x in range(0, N):
+        print(movieDictNames[confidenceMovies[x][0]], ": ", confidenceMovies[x])
