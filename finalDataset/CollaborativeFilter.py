@@ -118,7 +118,8 @@ inputFileName = '5878.txt'  #standard used if no argument is given
 if len(sys.argv ) > 1 :
 	inputFileName = sys.argv[1]
 print(inputFileName)
-path = "C:\\Users\\Joris\\Dropbox\\fuzzy\\training_set_tiny_part/"
+#path = "C:\\Users\\Joris\\Dropbox\\fuzzy\\training_set_tiny_part/"
+path = "training_set_tiny_part/"
 
 #The percentage of movies that another user must have seen in the list of movies of the input user
 PercentageOfSameMovies = 0.5
