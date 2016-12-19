@@ -1,13 +1,6 @@
 import csv
-from pprint import pprint
 import pickle
 import numpy as np
-import argparse
-import operator
-
-parser = argparse.ArgumentParser()
-parser.add_argument("-u", help="Give userId to calculate best options", type=int)
-args = parser.parse_args()
 
 def load_obj(name):
     with open(name + '.pkl', 'rb') as f:
@@ -30,14 +23,9 @@ def confidenceMovie(seenMovie, array1):
     return max(confidence)
 
 
-if __name__ == "__main__":
-    N = 20
-    
+def main(user):
     movieDict = load_obj("movieDict")
-
-    path = "training_set_tiny_part/"
-
-    user = args.u
+    path = "./training_set_tiny_part/"
 
     filePath = path + str(user) + ".txt"
     seenMovies = {}
@@ -49,15 +37,11 @@ if __name__ == "__main__":
             seenMovies[key] = [movieDict[key], float(row[1])]
     f.close()
 
-    confidenceMovies = []
 
+    recomMovies = {}
     for key in movieDict:
         if key not in seenMovies:
             confidence = confidenceMovie(seenMovies, movieDict[key])
-            confidenceMovies.append([key, confidence])
-
-    confidenceMovies.sort(key=lambda x: x[0], reverse=True)
-
-    movieDictNames = load_obj("movieDictNames")
-    for x in range(0, N):
-        print(movieDictNames[confidenceMovies[x][0]], ": ", confidenceMovies[x])
+            recomMovies[key] = confidence
+    
+    return recomMovies

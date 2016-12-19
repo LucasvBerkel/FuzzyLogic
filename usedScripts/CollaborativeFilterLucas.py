@@ -165,6 +165,7 @@ for key in finalDict:
 finalList.sort(key=lambda x: x[0], reverse=True)
 
 print('the top N reccomendations are :')
+print("")
 for x in range(0, N):
 	print(movieDictNames[str(int(finalList[x][0]))], ": ", finalList[x][1])
 
