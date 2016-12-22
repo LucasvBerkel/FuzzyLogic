@@ -53,17 +53,43 @@ if __name__ == "__main__":
     print("Get collaborative filtering recommendations...")
     collabrDict = collabr_filter(user, arrayofdics)
     print("")
-    confidenceMovies = []
 
+    confidenceMovies = []
     # Transport dict to array for sorting purposes
     for key in collabrDict:
         if key in contentDict:
             confidence = float(collabrDict[key])*float(contentDict[key])
             confidenceMovies.append([key, confidence])
 
+    confidenceCollr = []
+    # Transport dict to array for sorting purposes
+    for key in collabrDict:
+        confidenceCollr.append([key, collabrDict[key]])
+
+    confidenceCont = []
+    # Transport dict to array for sorting purposes
+    for key in contentDict:
+        confidenceCont.append([key, contentDict[key]])
+
     confidenceMovies.sort(key=lambda x: x[1], reverse=True)
+    confidenceCollr.sort(key=lambda x: x[1], reverse=True)
+    confidenceCont.sort(key=lambda x: x[1], reverse=True)
 
     movieDictNames = load_obj("movieDictNames")
+
+    print("Recommendations through combination method:")
     for x in range(0, N):
         print(str(movieDictNames[confidenceMovies[x][0]]) + ": " +
               str(confidenceMovies[x][1]))
+    print("")
+
+    print("Recommendations through collaborative filtering method:")
+    for x in range(0, N):
+        print(str(movieDictNames[confidenceCollr[x][0]]) + ": " +
+              str(confidenceCollr[x][1]))
+    print("")
+
+    print("Recommendations through content-based method:")
+    for x in range(0, N):
+        print(str(movieDictNames[confidenceCont[x][0]]) + ": " +
+              str(confidenceCont[x][1]))
