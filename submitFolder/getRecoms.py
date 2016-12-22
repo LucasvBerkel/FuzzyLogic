@@ -1,6 +1,9 @@
 import csv
+from pprint import pprint
 import pickle
-
+import numpy as np
+import operator
+import os
 from content_based import main as content_based
 from collabr_filter import main as collabr_filter
 from content_based import mainSolo as content_based_solo
@@ -10,13 +13,20 @@ def load_obj(name):
     with open(name + '.pkl', 'rb') as f:
         return pickle.load(f)
 		
+#This is the function used by the evaluation method which produces a list with predictions of rating for a user
+#First, the user is read from a txt file. Next, one of its ratings is separated to use as a test set
+#The predictions are based on the method specified in the input of this function
+#The test movie is then compared to its prediction and the output is based on whether the prediction is higher/lower than the average
+#prediction and the actual rating was higher/lower than the average of the users ratings.
+ 
 def testeval(user, arrayofdics, movieDict, method):
 	
     path = "./training_set_tiny_part/"
     filePath = path + str(user) + ".txt"
     
+	#The data of the user is read
+	
     reader = csv.reader(open(filePath, 'r'))
-    
     totalrating = 0
     user = {}
     for row in reader:
@@ -27,7 +37,8 @@ def testeval(user, arrayofdics, movieDict, method):
     avgratingUser = totalrating/len(user)
     testmovie = user.popitem()
 
-    N = 20
+	#Here the collaborative and the content_based methods are called to retrieve dictionaries with values for each movie
+	
     if(method == "all"):
         print("Get collaborative filtering recommendations...")
         collabrDict = collabr_filter(user, arrayofdics)
@@ -41,6 +52,10 @@ def testeval(user, arrayofdics, movieDict, method):
         collabrDict = collabr_filter(user, arrayofdics)
 
     print("")
+	
+	#The confidence score is calculated by the product of the two values if the combined method is chosen
+	#Otherwise it is equal to the outputs of the respective methods
+	
     confidenceMovies = []
     confidenceDict={}
     if(method == "all"):
@@ -61,9 +76,14 @@ def testeval(user, arrayofdics, movieDict, method):
             confidenceDict[key] = confidence + 1
     		
     confidenceMovies.sort(key=lambda x: x[1], reverse=True)
-
+	print('confidence rating calculated for this many movies: ', len(confidenceMovies))
+	
     movieDictNames = load_obj("movieDictNames")
-    print('confidence rating calculated for this many movies: ', len(confidenceMovies))
+	
+	
+	#The prediction for the test movie is compared to the actual rating here
+	#If there is no prediction for the test movie 'output' will be set to 0 
+	
     total = 0
     for movie in confidenceMovies:
     	total = total + movie[1]
