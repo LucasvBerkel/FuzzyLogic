@@ -1,6 +1,4 @@
-from getRecoms import testeval as allRecoms
-from getRecomsColl import testeval as collRecoms
-from getRecomsCont import testeval as contRecoms
+from getRecoms import testeval as recoms
 import os
 import csv
 import pickle
@@ -40,12 +38,8 @@ if __name__ == "__main__":
 	i = 0
 	for filename in files:
 		i = i + 1
-		if(method == "all"):
-			output, correct = allRecoms(filename.split('.')[0], arrayofdics, movieDict)
-		elif(method == "content_based"):
-			output, correct = contRecoms(filename.split('.')[0], arrayofdics, movieDict)
-		elif(method == "collaborative_filtering"):
-			output, correct = collRecoms(filename.split('.')[0], arrayofdics, movieDict)
+		if(method in  ["all", "content_based", "collaborative_filtering"]):
+			output, correct = recoms(filename.split('.')[0], arrayofdics, movieDict, method)
 		else:
 			print("Undefined method")
 			break

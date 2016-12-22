@@ -157,13 +157,7 @@ def main(user, arrayofdics):
     #The least number of ratings needed for a movie to be considered for the weighed ratings (note: the maximum is K)
     #C = 0.5 * K 
     C = 2
-	
-    #user = readInputUser(filePath)
-	
-	#grabbing a random rating
-    #testmovie = user.popitem()
-	
-    #arrayofdics = readAllUsers(path)
+	   
     leastNrOfSameMovies = math.floor(PercentageOfSameMovies * len(user))
     
     arrayofvalid = getAllValids(user, arrayofdics, leastNrOfSameMovies )
