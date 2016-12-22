@@ -2,6 +2,11 @@ import csv
 import pickle
 import numpy as np
 
+# This method calculates the confidence scores of every unseen movie for a user.
+# It receives either the reduced collabrDict(for evaulating purposes) or not(for just recommending purposes)
+# This method is always called from another file, so no option is given for users to directly call this method.
+# That needs to be done from either eval.py or getRecomsOnly.py
+
 # Function to retrieve dictionary from pickle file
 def load_obj(name):
     with open(name + '.pkl', 'rb') as f:
@@ -37,7 +42,7 @@ def main(user, movieDict, collabrDict):
             confidence = confidenceMovie(seenMovies, movieDict[key])
             recomMovies[key] = confidence
     
-    print("content done")
+    print("Content done")
     return recomMovies
 
 # Same method as above, only if content_based method is used alone
@@ -53,5 +58,5 @@ def mainSolo(user, movieDict):
             confidence = confidenceMovie(seenMovies, movieDict[key])
             recomMovies[key] = confidence
     
-    print("content done")
+    print("Content done")
     return recomMovies
