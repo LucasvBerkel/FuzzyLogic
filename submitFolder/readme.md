@@ -36,3 +36,8 @@ This folder containes multiple files with each a own purpose, a quick overview:
 - movieDict.pkl: pickle file which stores a python dictionary which has the movie-id's as key, with the corresponding fuzzy genre array as value
 - training_set_part/: folder containing 20 percent of original dataset
 - training_set_tiny_part/: folder containing 3 percent of original dataset
+- content_based_data/: folder containing resources for the pickle files used in the content-based method
+	- content_based_data/movie_Titles_with_Genres.csv: csv file that connects id, name and genres of movies together
+	- content_based_data/constructGenreIndex.py: python script to construct the genreIndex.pkl, which needed for the other pickles.
+	- content_based_data/constructMovieDict.py: python script to construct the movieDict.pkl from the csv file
+	- content_based_data/constructMovieDictNames.py: python script to construct movieDictNames.pkl from the csv file

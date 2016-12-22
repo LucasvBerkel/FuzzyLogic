@@ -1,9 +1,6 @@
 import csv
-from pprint import pprint
 import pickle
-import numpy as np
-import operator
-import os
+
 from content_based import main as content_based
 from collabr_filter import main as collabr_filter
 from content_based import mainSolo as content_based_solo
