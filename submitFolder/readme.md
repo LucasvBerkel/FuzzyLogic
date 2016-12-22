@@ -34,3 +34,5 @@ This folder containes multiple files with each a own purpose, a quick overview:
 - getRecoms.py: python script which get individual recommendation lists queried in eval.py, used for evaluating the program.
 - movieDictNames.pkl: pickle file which stores a python dictionary which has the movie-id's as key, with the corresponding name as value
 - movieDict.pkl: pickle file which stores a python dictionary which has the movie-id's as key, with the corresponding fuzzy genre array as value
+- training_set_part/: folder containing 20 percent of original dataset
+- training_set_tiny_part/: folder containing 3 percent of original dataset
