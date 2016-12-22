@@ -101,25 +101,37 @@ def computeWeighedRatings( KMostsimilarUsers, C):
 		weighedratings[movie] = weighedRating
 	return weighedratings
 
-def computeWeightedRatings(KMostsimilarUsers, C):
+def computeWeightedRatingsTemp(KMostsimilarUsers, C):
+	# Set minimum distance
 	minDistance = KMostsimilarUsers[0]['distance']
+	# Loop through all users for minimum distance(I suspect this can be done in one line haha)
 	for user in KMostsimilarUsers:
 		if user['distance'] < minDistance:
 			minDistance = user['distance']
+	# Normalise all users to minimum distance
 	for user in KMostsimilarUsers:
 		user['distance'] = np.linalg.inv(user['distance']/minDistance)
+	# Init mean ratings
 	meanratings = {}
+	# Loop through all users
 	for user in KMostsimilarUsers:
+		# Loop through all movies of those users
 		for key in user:
+			# Because of the double loop, check if movie is already handled
 			if key not in meanratings:
+				# Init sums
 				totalRating = 0
 				totalFuzzyDistance = 0
+				# Loop through all users for calculating meanrating
 				for user in KMostsimilarUsers:
 					if key in user:
 						totalRating += user[key]*user['distance']
 						totalFuzzyDistance += user['distance']
+				# Retrieve fuzzy rating
 				meanratings[key] = (float(totalRating)/float(totalFuzzyDistance))
 
+	# From here it same as before
+	
 	dataframe = pandas.DataFrame(KMostsimilarUsers)
 	averagerating = 2.5 # needs to be average of all rating in database, a constant
 	weighedratings = {}
