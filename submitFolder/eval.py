@@ -1,14 +1,14 @@
-import getRecoms
-import getRecomsColl
-import getRecomsCont
+from getRecoms import testeval as allRecoms
+from getRecomsColl import testeval as collRecoms
+from getRecomsCont import testeval as contRecoms
 import os
 import csv
 import pickle
-
 import numpy as np
+import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-m", help="Method to evaluate(all, content_based or collaborative_filtering)", type=str)
+parser.add_argument("-m", help="Method to evaluate(all, content_based or collaborative_filtering", type=str)
 args = parser.parse_args()
 
 def load_obj(name):
@@ -18,7 +18,8 @@ def load_obj(name):
 if __name__ == "__main__":
 	method = args.m
 
-	path = "C:\\Users\\Joris\\Dropbox\\fuzzy\\fuzzycomb\\training_set_tiny_part/"
+	# path = "C:\\Users\\Joris\\Dropbox\\fuzzy\\fuzzycomb\\training_set_tiny_part/"
+	path = "./training_set_tiny_part/"
 	files = os.listdir(path)
 
 	movieDict = load_obj("movieDict")
@@ -40,11 +41,11 @@ if __name__ == "__main__":
 	for filename in files:
 		i = i + 1
 		if(method == "all"):
-			output, correct = getRecoms.testeval(filename.split('.')[0], arrayofdics, movieDict)
+			output, correct = allRecoms(filename.split('.')[0], arrayofdics, movieDict)
 		elif(method == "content_based"):
-			output, correct = getRecomsCont.testeval(filename.split('.')[0], arrayofdics, movieDict)
+			output, correct = contRecoms(filename.split('.')[0], arrayofdics, movieDict)
 		elif(method == "collaborative_filtering"):
-			output, correct = getRecomsColl.testeval(filename.split('.')[0], arrayofdics, movieDict)
+			output, correct = collRecoms(filename.split('.')[0], arrayofdics, movieDict)
 		else:
 			print("Undefined method")
 			break
