@@ -2,6 +2,7 @@ import csv
 import pickle
 import argparse
 import os
+from sys import stdin
 
 from content_based import mainSolo as content_based
 from collabr_filter import main as collabr_filter
@@ -24,17 +25,38 @@ if __name__ == "__main__":
     N = 20
     user = args.u
 
+    movieDictNames = load_obj("movieDictNames")
+
     # Path to training set
     path = "./training_set_tiny_part/"
     files = os.listdir(path)
 
-    reader = csv.reader(open(path + user + ".txt", 'r'))
+    if user == "make":
+        movieList = ["12338", "11283", "14691", "1905", "2782", "4306", "5345", "10820", "12918", "14185", "4266", "5775", "6720", "9628", "11521"]
+        user = {}
+        counter = 5
+        for movie in movieList:
+            print(str(counter) + " movies to rate")
+            print(movieDictNames[movie] + ":")
+            userinput = stdin.readline()
+            if(userinput == "" or userinput == "\n"):
+                continue
+            elif(int(userinput) > 0  and int(userinput) < 6):
+                user[movie.zfill(7)] = userinput
+                counter -= 1
+            if counter == 0:
+                break
 
-    # Filling dicts and array of dicts so collabr_filter and content_based can handle them
-    user = {}
-    for row in reader:
-        movie, rating, niks = row
-        user[movie] = rating
+
+        
+    else:
+        reader = csv.reader(open(path + user + ".txt", 'r'))
+
+        # Filling dicts and array of dicts so collabr_filter and content_based can handle them
+        user = {}
+        for row in reader:
+            movie, rating, niks = row
+            user[movie] = rating
 
     arrayofdics = []
     for filename in files:
